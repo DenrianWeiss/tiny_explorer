@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>区块浏览器</title>
+    <link
+            crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"
+            integrity="sha384-cLRrMq39HOZdvE0j6yBojO4+1PrHfB7a9l5qLcmRm/fiWXYY+CndJPmyu5FV/9Tw"
+            rel="stylesheet"
+    />
+    <script
+            crossorigin="anonymous"
+            integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
+            src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"
+    ></script>
+    <script crossorigin="anonymous"
+            integrity="sha512-FDcVY+g7vc5CXANbrTSg1K5qLyriCsGDYCE02Li1tXEYdNQPvLPHNE+rT2Mjei8N7fZbe0WLhw27j2SrGRpdMg=="
+            referrerpolicy="no-referrer"
+            src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"
+    ></script>
+    <script src="script/main.js"></script>
+    <script src="script/search.js"></script>
+</head>
+<body onload="renderMainPage()">
+<div class="mdui-toolbar mdui-color-theme">
+    <a href="/" class="mdui-btn mdui-btn-icon">
+        <i class="mdui-icon material-icons">home</i>
+    </a>
+    <span class="mdui-typo-title">区块浏览器</span>
+</div>
+<div>
+    <!-- search bar -->
+    <div class="mdui-container mdui-typo">
+        <form action="search" method="get">
+            <div class="mdui-textfield mdui-col-xs-10 mdui-col-lg-6">
+                <input class="mdui-textfield-input" type="text" name="search" placeholder="交易ID/区块号"/>
+            </div>
+            <input type="submit"
+                   class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-col-xs-2 mdui-col-lg-1"/>
+        </form>
+    </div>
+    <!-- Block List -->
+    <div class="mdui-container mdui-typo">
+        <div class="mdui-container mdui-col-xs-12 mdui-col-lg-6" id="block_list">
+            <ul class="mdui-list">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">blur_circular</i>
+                    <div class="mdui-list-item-content">
+                        <div class="mdui-list-item-title mdui-list-item-one-line">Block ######</div>
+                        <div class="mdui-list-item-text mdui-list-item-two-line">
+                            <span>Hash: 0x################################</span><br/>
+                            <span>Timestamp: 2021-01-01</span>
+                            <span>  </span>
+                            <span>Transaction Count: #</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">blur_circular</i>
+                    <div class="mdui-list-item-content">
+                        <div class="mdui-list-item-title mdui-list-item-one-line">Block ######</div>
+                        <div class="mdui-list-item-text mdui-list-item-two-line">
+                            <span>Hash: 0x################################</span><br/>
+                            <span>Timestamp: 2021-01-01</span>
+                            <span>  </span>
+                            <span>Transaction Count: #</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">blur_circular</i>
+                    <div class="mdui-list-item-content">
+                        <div class="mdui-list-item-title mdui-list-item-one-line">Block ######</div>
+                        <div class="mdui-list-item-text mdui-list-item-two-line">
+                            <span>Hash: 0x################################</span><br/>
+                            <span>Timestamp: 2021-01-01</span>
+                            <span>  </span>
+                            <span>Transaction Count: #</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="mdui-container mdui-col-xs-12 mdui-col-lg-6" id="tx_list">
+            <ul class="mdui-list">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">swap_horiz</i>
+                    <div class="mdui-list-item-content">
+                        <div class="mdui-list-item-title mdui-list-item-one-line">Tx ######</div>
+                        <div class="mdui-list-item-text mdui-list-item-two-line">
+                            <span>Sender: 0x################################</span>
+                            <br/>
+                            <span>Receiver: 0x################################</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">swap_horiz</i>
+                    <div class="mdui-list-item-content">
+                        <div class="mdui-list-item-title mdui-list-item-one-line">Tx ######</div>
+                        <div class="mdui-list-item-text mdui-list-item-two-line">
+                            <span>Sender: 0x################################</span>
+                            <br/>
+                            <span>Receiver: 0x################################</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">swap_horiz</i>
+                    <div class="mdui-list-item-content">
+                        <div class="mdui-list-item-title mdui-list-item-one-line">Tx ######</div>
+                        <div class="mdui-list-item-text mdui-list-item-two-line">
+                            <span>Sender: 0x################################</span>
+                            <br/>
+                            <span>Receiver: 0x################################</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
