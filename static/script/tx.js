@@ -157,28 +157,28 @@ function renderLog(e) {
             <div class="mdui-list-item-content">
                 <div class="mdui-list-item-title mdui-list-item-one-line">转账</div>
                 <div class="mdui-list-item-text">
-                <span>从 ${e.topics[1]}</span><br/>
+                <span>从 0x${e.topics[1].substring(22)}</span><br/>
                 <span>转账 ${e.address}</span><br/>
-                <span>至 ${e.topics[2]}</span><br/>
-                <span>金额 ${e.data}</span>
+                <span>至 0x${e.topics[2].substring(22)}</span><br/>
+                <span>金额 ${parseInt(e.data)}</span>
                 </div>
             </div>
         </li>
     `
     } else {
+
+        let doc = '';
+        for (const topic of e.topics) {
+            doc += 'Topic:' + topic + '<br/>\n'
+        }
+        doc += 'Data:' + e.data + '\n'
         return `
         <li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons">notifications</i>
             <div class="mdui-list-item-content">
                 <div class="mdui-list-item-title mdui-list-item-one-line">事件</div>
                 <div class="mdui-list-item-text">
-                <code>${() => {
-            let doc = '';
-            for (const topic of e.topics) {
-                doc += 'Topic:' + topic + '<br/>\n'
-            }
-            doc += 'Data:' + e.data + '\n'
-        }}</code>
+                <code>${doc}</code>
                 </div>
             </div>
         </li>
