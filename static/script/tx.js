@@ -166,14 +166,14 @@ function renderLog(e) {
     // Filter out erc20 events.
     if (e.topics[0] === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef") {
         return `
-        <li class="mdui-list-item mdui-ripple">
+        <li class="mdui-list-item">
             <i class="mdui-list-item-icon mdui-icon material-icons">transform</i>
             <div class="mdui-list-item-content">
                 <div class="mdui-list-item-title mdui-list-item-one-line">转账</div>
                 <div class="mdui-list-item-text">
-                <span>从 0x${e.topics[1].substring(22)}</span><br/>
+                <span>从 0x${e.topics[1].substring(26)}</span><br/>
                 <span>转账 ${e.address}</span><br/>
-                <span>至 0x${e.topics[2].substring(22)}</span><br/>
+                <span>至 0x${e.topics[2].substring(26)}</span><br/>
                 <span>金额 ${parseInt(e.data)}</span>
                 </div>
             </div>
