@@ -56,6 +56,20 @@ async function renderTx() {
     document.getElementById('tx').innerHTML = `<h2>交易 #${txInstance.transactionHash}</h2>
         <h4>交易基本信息</h4>
         <ul class="mdui-list">
+            <li class="mdui-list-item mdui-ripple" onclick="window.location.href='${"/account.html?address=" + txInfo.from}'">
+                <i class="mdui-list-item-icon mdui-icon material-icons">arrow_forward</i>
+                <div class="mdui-list-item-content">
+                    <div class="mdui-list-item-title">${txInfo.from}</div>
+                    <div class="mdui-list-item-text mdui-list-item-one-line">来源</div>
+                </div>
+            </li>
+            <li class="mdui-list-item mdui-ripple" onclick="window.location.href='${"/account.html?address=" + txInfo.to}'">
+                <i class="mdui-list-item-icon mdui-icon material-icons">arrow_back</i>
+                <div class="mdui-list-item-content">
+                    <div class="mdui-list-item-title">${txInfo.to}</div>
+                    <div class="mdui-list-item-text mdui-list-item-one-line">目标</div>
+                </div>
+            </li>
             <li class="mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons">fingerprint</i>
                 <div class="mdui-list-item-content">

@@ -17,6 +17,9 @@ var blockHtml []byte
 //go:embed tx.html
 var txHtml []byte
 
+//go:embed account.html
+var accountHtml []byte
+
 func IndexHandler(c *gin.Context) {
 	c.Data(200, "text/html", IndexHtml)
 }
@@ -27,4 +30,8 @@ func BlockHandler(c *gin.Context) {
 
 func TxHandler(c *gin.Context) {
 	c.Data(200, "text/html", txHtml)
+}
+
+func AccountHandler(c *gin.Context) {
+	c.Data(200, "text/html", accountHtml)
 }

@@ -17,6 +17,7 @@ func main() {
 	r.GET("/", static.IndexHandler)
 	r.GET("/block.html", static.BlockHandler)
 	r.GET("/tx.html", static.TxHandler)
+	r.GET("/account.html", static.AccountHandler)
 	r.GET("/search", handler.SearchHandler)
 	subDir, _ := fs.Sub(static.EmbedFs, "script")
 	r.StaticFS("/script", http.FS(subDir))
