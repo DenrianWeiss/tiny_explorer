@@ -5,6 +5,12 @@ async function getRpc() {
     rpc = await rpcApi.text();
 }
 
+async function getCustomToken() {
+    let rpcApi = await fetch("/api/tokens/list");
+    let tokens = await rpcApi.json();
+    return tokens;
+}
+
 let chainIdToAddress = {
     1: {
         "WETH": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
@@ -36,14 +42,16 @@ async function refreshTokenBalance() {
     let address = searchParams.get("address");
     let provider = new ethers.providers.JsonRpcProvider(rpc);
     let chainId = (await provider.getNetwork()).chainId;
-    let addressList = chainIdToAddress[chainId];
-    for (const v in addressList) {
-        let addr = addressList[v];
-        await renderToken(v, addr, address, (n, b) => {
+    let hardCode = chainIdToAddress[chainId];
+    let customToken = await getCustomToken();
+    let addressList = new Map([...Object.entries(hardCode), ...Object.entries(customToken)]);
+    // noinspection ES6MissingAwait
+    addressList.forEach(async (value, key) => {
+        await renderToken(key, value, address, (n, b) => {
             document.getElementById('balanceList').innerHTML += `<tr><td>${n}</td><td>${b}</td></tr>`
             mdui.mutation()
         });
-    }
+    });
 }
 
 async function renderAccountPage() {
