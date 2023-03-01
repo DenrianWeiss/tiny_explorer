@@ -14,12 +14,16 @@ let chainIdToAddress = {
         "stETH": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
         "Aave Debt Variable ETH": "0x4e977830ba4bd783C0BB7F15d3e243f73FF57121",
         "Aave stETH": "0x1982b2F5814301d4e9a8b0201555376e62F82428",
+        "AaveV3 Coll wstETH": "0x0B925eD163218f6662a35e0f0371Ac234f9E9371",
+        "AaveV3 Debt Variable ETH": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8"
     }, 137: {
         "WMATIC": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
         "MATICX": "0xfa68fb4628dff1028cfec22b4162fccd0d45efb6",
         "Stader": "0x1d734a02ef1e1f5886e66b0673b71af5b53ffa94",
         "Aave Debt Variable Matic": "0x4a1c3aD6Ed28a636ee1751C69071f6be75DEb8B8",
         "Aave MaticX": "0x80cA0d8C38d2e2BcbaB66aA1648Bd1C7160500FE",
+    }, 43114: {
+        "qiBTC.b": "0x89a415b3D20098E6A6C8f7a59001C67BD3129821"
     }
 }
 
@@ -130,5 +134,5 @@ async function renderToken(name, tokenAddress, userAddress, renderFunc) {
     let token = new ethers.Contract(tokenAddress, erc20Abi, provider);
     let balance = await token.balanceOf(userAddress);
     let decimals = await token.decimals();
-    await renderFunc(name, balance);
+    await renderFunc(name, balance / Math.pow(10, decimals));
 }

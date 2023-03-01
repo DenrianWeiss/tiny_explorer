@@ -7,6 +7,8 @@ import (
 
 var foundry = ""
 
+var indexer = ""
+
 func init() {
 	env, b := os.LookupEnv("FOUNDRY_PATH_OVERRIDE")
 	if b {
@@ -14,6 +16,16 @@ func init() {
 	} else {
 		foundry = ""
 	}
+	index, b := os.LookupEnv("INDEXER_START_BLOCK")
+	if b {
+		indexer = index
+	} else {
+		indexer = ""
+	}
+}
+
+func GetIndexerStartBlock() string {
+	return indexer
 }
 
 func GetAnvilPath() string {

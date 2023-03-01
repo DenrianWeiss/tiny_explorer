@@ -14,6 +14,8 @@ func main() {
 	r.POST("/api/trace/:txId", api.GetTrace)
 	r.POST("/api/tx", api.GetTx)
 	r.GET("/api/rpc", api.GetRpc)
+	r.GET("/api/txs/:address", api.GetTxs)
+	r.GET("/api/tokens/:address", api.GetTokens)
 	r.GET("/", static.IndexHandler)
 	r.GET("/block.html", static.BlockHandler)
 	r.GET("/tx.html", static.TxHandler)
