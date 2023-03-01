@@ -15,7 +15,7 @@ let chainIdToAddress = {
         "Aave Debt Variable ETH": "0x4e977830ba4bd783C0BB7F15d3e243f73FF57121",
         "Aave stETH": "0x1982b2F5814301d4e9a8b0201555376e62F82428",
         "AaveV3 Coll wstETH": "0x0B925eD163218f6662a35e0f0371Ac234f9E9371",
-        "AaveV3 Debt Variable ETH": "0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8"
+        "AaveV3 Debt Variable ETH": "0xeA51d7853EEFb32b6ee06b1C12E6dcCA88Be0fFE"
     }, 137: {
         "WMATIC": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
         "MATICX": "0xfa68fb4628dff1028cfec22b4162fccd0d45efb6",
