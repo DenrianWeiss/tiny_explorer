@@ -6,11 +6,13 @@ import (
 	"net/http"
 	"resolver_explorer/handler"
 	"resolver_explorer/handler/api"
+	"resolver_explorer/service/indexer"
 	"resolver_explorer/static"
 )
 
 func main() {
 	r := gin.Default()
+	go indexer.InitIndexer()
 	r.POST("/api/trace/:txId", api.GetTrace)
 	r.POST("/api/tx", api.GetTx)
 	r.GET("/api/rpc", api.GetRpc)

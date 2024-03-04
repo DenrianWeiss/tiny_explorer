@@ -33,7 +33,87 @@ let chainIdToAddress = {
     }
 }
 
-function queryTokenBalance() {
+async function getTransactionList(address) {
+    let txListApi = await fetch("/api/tx/" + address);
+    let txList = await txListApi.json();
+    // Parse txList
+    // render table row
+    let txListInSeg = ""
+    let txListOutSeg = ""
+    for (const inTx in txList?.in) {
+        txListInSeg += `<tr onclick="toTxPage(${inTx.hash})"> <!--TODO: toTxPage-->
+            <td>${inTx.hash}</td>
+            <td>${inTx.block}</td>
+            <td>${inTx.from}</td>
+            <td>${inTx.to}</td>
+            <td>${inTx.value}</td>
+        </tr>`
+    }
+    for (const outTx in txList?.out) {
+        txListOutSeg += `<tr onclick="toTxPage(${outTx.hash})">
+            <td>${outTx.hash}</td>
+            <td>${outTx.block}</td>
+            <td>${outTx.from}</td>
+            <td>${outTx.to}</td>
+            <td>${outTx.value}</td>
+        </tr>`
+    }
+    // Assemble seg
+    return `<div className="mdui-panel">
+        <div className="mdui-panel-item">
+            <div className="mdui-panel-item-header">
+                <div className="mdui-panel-item-title">发出交易</div>
+                <i className="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div className="mdui-panel-item-body">
+                <div className="mdui-table-fluid">
+                    <table className="mdui-table">
+                        <thead>
+                        <tr>
+                            <th>交易ID</th>
+                            <th>区块号</th>
+                            <th>时间</th>
+                            <th>发出地址</th>
+                            <th>接收地址</th>
+                            <th>金额</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        ${txListInSeg}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div className="mdui-panel-item">
+            <div className="mdui-panel-item-header">
+                <div className="mdui-panel-item-title">收到交易</div>
+                <i className="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div className="mdui-panel-item-body">
+                <div className="mdui-table-fluid">
+                    <table className="mdui-table">
+                        <thead>
+                        <tr>
+                            <th>交易ID</th>
+                            <th>区块号</th>
+                            <th>发出地址</th>
+                            <th>接收地址</th>
+                            <th>金额</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        ${txListOutSeg}
+                        </tbody>
+                    </table>
+                </div>
+                <!--                    <div class="mdui-panel-item-actions">-->
+                <!--                        <button class="mdui-btn mdui-ripple" onclick="refreshTransaction()">刷新</button>-->
+                <!--                    </div>-->
+            </div>
+        </div>
+    </div>`
+
 }
 
 async function refreshTokenBalance() {
@@ -101,6 +181,8 @@ async function renderAccountPage() {
                 </div>
             </li>
         </ul>
+        <h4>交易记录</h4>
+        ${await getTransactionList(address)}
         <h4>代币余额</h4>
         <div class="mdui-table-fluid">
             <table class="mdui-table">
