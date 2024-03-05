@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"resolver_explorer/service/indexer"
+	"strings"
 )
 
 func GetTxs(c *gin.Context) {
@@ -15,8 +16,8 @@ func GetTxs(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"in":  indexer.TxInRecord[a],
-		"out": indexer.TxOutRecord[a],
+		"in":  indexer.TxInRecord[strings.ToLower(a)],
+		"out": indexer.TxOutRecord[strings.ToLower(a)],
 	})
 }
 

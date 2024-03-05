@@ -13,6 +13,7 @@ import (
 	"resolver_explorer/config"
 	"resolver_explorer/service/env"
 	"resolver_explorer/service/ethereum"
+	"strings"
 )
 
 var TransferEventHash = common.HexToHash("0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef")
@@ -35,8 +36,8 @@ type GetTxRequest struct {
 }
 
 type GetTxResponse struct {
-	Jsonrpc string `json:"jsonrpc"`
-	Id      int    `json:"id"`
+	Jsonrpc string      `json:"jsonrpc"`
+	Id      interface{} `json:"id"`
 	Result  struct {
 		BlockHash        string `json:"blockHash"`
 		BlockNumber      string `json:"blockNumber"`
@@ -61,30 +62,31 @@ var TxInRecord = make(map[string][]TxSummary)
 var TokenRecord = make(map[string]map[string]bool)
 
 func InsertTxOutForAddress(address string, txS TxSummary) {
-	if _, ok := TxOutRecord[address]; ok {
-		TxOutRecord[address] = append(TxOutRecord[address], txS)
+	if _, ok := TxOutRecord[strings.ToLower(address)]; ok {
+		TxOutRecord[strings.ToLower(address)] = append(TxOutRecord[strings.ToLower(address)], txS)
 	} else {
-		TxOutRecord[address] = []TxSummary{txS}
+		TxOutRecord[strings.ToLower(address)] = []TxSummary{txS}
 	}
 }
 
 func InsertTxInForAddress(address string, txS TxSummary) {
-	if _, ok := TxInRecord[address]; ok {
-		TxInRecord[address] = append(TxInRecord[address], txS)
+	if _, ok := TxInRecord[strings.ToLower(address)]; ok {
+		TxInRecord[strings.ToLower(address)] = append(TxInRecord[strings.ToLower(address)], txS)
 	} else {
-		TxInRecord[address] = []TxSummary{txS}
+		TxInRecord[strings.ToLower(address)] = []TxSummary{txS}
 	}
 }
 
 func InsertTokenForAddress(address string, token string) {
-	if v, ok := TokenRecord[address]; ok && v != nil {
-		TokenRecord[address][token] = true
+	if v, ok := TokenRecord[strings.ToLower(address)]; ok && v != nil {
+		TokenRecord[strings.ToLower(address)][strings.ToLower(token)] = true
 	} else {
-		TokenRecord[address] = map[string]bool{token: true}
+		TokenRecord[strings.ToLower(address)] = map[string]bool{token: true}
 	}
 }
 
 func InitIndexer() {
+	ethereum.InitConnect()
 	if env.GetIndexerStartBlock() == "" {
 		log.Println("Indexer is disabled")
 	}
@@ -109,7 +111,8 @@ func GetTxWithJsonRpc(hash string) *GetTxResponse {
 		Params:  []string{hash},
 		Method:  "eth_getTransactionByHash",
 	})
-	post, err := http.Post(config.GetRpc(), "application/json", bytes.NewReader(body))
+
+	post, err := http.Post(config.GetHttpRpc(), "application/json", bytes.NewReader(body))
 	if err != nil {
 		return nil
 	}

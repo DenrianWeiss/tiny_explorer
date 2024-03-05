@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
 var rpc = "http://localhost:8545"
 
@@ -13,4 +16,13 @@ func init() {
 
 func GetRpc() string {
 	return rpc
+}
+
+func GetHttpRpc() string {
+	rpcUrl := GetRpc()
+	if strings.HasPrefix(rpcUrl, "ws") {
+		// Replace ws with http
+		rpcUrl = "http" + rpcUrl[2:]
+	}
+	return rpcUrl
 }

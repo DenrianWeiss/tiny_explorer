@@ -34,13 +34,14 @@ let chainIdToAddress = {
 }
 
 async function getTransactionList(address) {
-    let txListApi = await fetch("/api/tx/" + address);
+    let txListApi = await fetch("/api/txs/" + address);
     let txList = await txListApi.json();
     // Parse txList
     // render table row
     let txListInSeg = ""
     let txListOutSeg = ""
-    for (const inTx in txList?.in) {
+    let inTxList = txList?.in ?? []
+    for (const inTx of inTxList) {
         txListInSeg += `<tr onclick="toTxPage(${inTx.hash})"> <!--TODO: toTxPage-->
             <td>${inTx.hash}</td>
             <td>${inTx.block}</td>
@@ -49,25 +50,21 @@ async function getTransactionList(address) {
             <td>${inTx.value}</td>
         </tr>`
     }
-    for (const outTx in txList?.out) {
+    let outTxList = txList?.out ?? []
+    for (const outTx of outTxList) {
         txListOutSeg += `<tr onclick="toTxPage(${outTx.hash})">
             <td>${outTx.hash}</td>
             <td>${outTx.block}</td>
             <td>${outTx.from}</td>
-            <td>${outTx.to}</td>
+            <td>${outTx.to == "" ? "合约创建": outTx.to}</td>
             <td>${outTx.value}</td>
         </tr>`
     }
     // Assemble seg
-    return `<div className="mdui-panel">
-        <div className="mdui-panel-item">
-            <div className="mdui-panel-item-header">
-                <div className="mdui-panel-item-title">发出交易</div>
-                <i className="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-            </div>
-            <div className="mdui-panel-item-body">
-                <div className="mdui-table-fluid">
-                    <table className="mdui-table">
+    return `<div class="mdui-typo">
+            <p5>发出交易</p5>
+                <div class="mdui-table-fluid">
+                    <table class="mdui-table">
                         <thead>
                         <tr>
                             <th>交易ID</th>
@@ -83,16 +80,9 @@ async function getTransactionList(address) {
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-        <div className="mdui-panel-item">
-            <div className="mdui-panel-item-header">
-                <div className="mdui-panel-item-title">收到交易</div>
-                <i className="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-            </div>
-            <div className="mdui-panel-item-body">
-                <div className="mdui-table-fluid">
-                    <table className="mdui-table">
+        <p5>收到交易</p5>
+                <div class="mdui-table-fluid">
+                    <table class="mdui-table">
                         <thead>
                         <tr>
                             <th>交易ID</th>
@@ -106,12 +96,10 @@ async function getTransactionList(address) {
                         ${txListOutSeg}
                         </tbody>
                     </table>
-                </div>
                 <!--                    <div class="mdui-panel-item-actions">-->
                 <!--                        <button class="mdui-btn mdui-ripple" onclick="refreshTransaction()">刷新</button>-->
                 <!--                    </div>-->
-            </div>
-        </div>
+                </div>
     </div>`
 
 }

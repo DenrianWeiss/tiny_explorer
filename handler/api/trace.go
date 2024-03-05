@@ -15,7 +15,7 @@ func GetTrace(c *gin.Context) {
 	result, err := db.Get(db.GetDb(), []byte("trace"+id))
 	if err != nil || result == nil || len(result) == 0 {
 		// Test transaction exists
-		rpc := config.GetRpc()
+		rpc := config.GetHttpRpc()
 		dial, err := ethclient.Dial(rpc)
 		if err != nil {
 			c.JSON(200, gin.H{
