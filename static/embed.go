@@ -17,8 +17,14 @@ var blockHtml []byte
 //go:embed tx.html
 var txHtml []byte
 
+//go:embed fork_tx.html
+var forkTxHtml []byte
+
 //go:embed account.html
 var accountHtml []byte
+
+//go:embed simulator.html
+var simulatorHtml []byte
 
 func IndexHandler(c *gin.Context) {
 	c.Data(200, "text/html", IndexHtml)
@@ -32,6 +38,14 @@ func TxHandler(c *gin.Context) {
 	c.Data(200, "text/html", txHtml)
 }
 
+func ForkTxHandler(c *gin.Context) {
+	c.Data(200, "text/html", forkTxHtml)
+}
+
 func AccountHandler(c *gin.Context) {
 	c.Data(200, "text/html", accountHtml)
+}
+
+func SimulatorHandler(c *gin.Context) {
+	c.Data(200, "text/html", simulatorHtml)
 }

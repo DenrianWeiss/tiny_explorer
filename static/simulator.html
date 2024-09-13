@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>区块浏览器</title>
+    <link
+            crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"
+            integrity="sha384-cLRrMq39HOZdvE0j6yBojO4+1PrHfB7a9l5qLcmRm/fiWXYY+CndJPmyu5FV/9Tw"
+            rel="stylesheet"
+    />
+    <script
+            crossorigin="anonymous"
+            integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
+            src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"
+    ></script>
+    <script crossorigin="anonymous"
+            integrity="sha512-FDcVY+g7vc5CXANbrTSg1K5qLyriCsGDYCE02Li1tXEYdNQPvLPHNE+rT2Mjei8N7fZbe0WLhw27j2SrGRpdMg=="
+            referrerpolicy="no-referrer"
+            src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"
+    ></script>
+    <script src="script/simulator.js"></script>
+
+    <script src="script/search.js"></script>
+</head>
+<body onload="renderSimulator()">
+<div class="mdui-toolbar mdui-color-theme">
+    <a href="/" class="mdui-btn mdui-btn-icon">
+        <i class="mdui-icon material-icons">home</i>
+    </a>
+    <span class="mdui-typo-title">模拟器</span>
+</div>
+<div class="mdui-container mdui-typo">
+    <div>
+        <!-- Text field for inputting the remote URL -->
+        <div class="mdui-textfield mdui-textfield-floating-label">
+            <label class="mdui-textfield-label">远程RPC URL</label>
+            <input class="mdui-textfield-input" type="text" id="remote_rpc"/>
+        </div>
+    </div>
+    <div>
+        <p id="current_simulator_status">当前状态：未开始</p>
+        <p id="current_simulator_rpc"></p>
+    </div>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="start" onclick="startSimulator()">开始模拟</button>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="stop" onclick="stopSimulator()">停止模拟</button>
+</div>
+<div class="mdui-container mdui-typo">
+    <!-- Textbox to input from, to, data and amount -->
+    <div class="mdui-textfield mdui-textfield-floating-label">
+        <label class="mdui-textfield-label">From</label>
+        <input class="mdui-textfield-input" type="text" id="from"/>
+    </div>
+    <div class="mdui-textfield mdui-textfield-floating-label">
+        <label class="mdui-textfield-label">To</label>
+        <input class="mdui-textfield-input" type="text" id="to"/>
+    </div>
+    <div class="mdui-textfield mdui-textfield-floating-label">
+        <label class="mdui-textfield-label">Data</label>
+        <input class="mdui-textfield-input" type="text" id="data"/>
+    </div>
+    <div class="mdui-textfield mdui-textfield-floating-label">
+        <label class="mdui-textfield-label">Amount</label>
+        <input class="mdui-textfield-input" type="text" id="amount"/>
+    </div>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="send" onclick="sendTransaction()">发送交易</button>
+</div>
+</body>

@@ -6,6 +6,8 @@ import (
 )
 
 var db *badger.DB
+
+// var contractDb *badger.DB
 var dbOnce = sync.Once{}
 
 func initDb() {
@@ -13,6 +15,10 @@ func initDb() {
 	if err != nil {
 		panic(err)
 	}
+	//contractDb, err = badger.Open(badger.DefaultOptions("contract"))
+	//if err != nil {
+	//	panic(err)
+	//}
 	db = open
 }
 
@@ -20,6 +26,11 @@ func GetDb() *badger.DB {
 	dbOnce.Do(initDb)
 	return db
 }
+
+//func GetContractDb() *badger.DB {
+//	dbOnce.Do(initDb)
+//	return contractDb
+//}
 
 func Set(db *badger.DB, key []byte, value []byte) error {
 	return db.Update(func(txn *badger.Txn) error {

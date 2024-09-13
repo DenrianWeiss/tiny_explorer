@@ -93,3 +93,7 @@ function renderTx(tx) {
     </li>
     `
 }
+
+function startSimulator() {
+    window.location = "simulator.html";
+}
