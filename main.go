@@ -14,6 +14,7 @@ func main() {
 	r := gin.Default()
 	// no indexer for you!
 	//go indexer.InitIndexer()
+	r.GET("/api/run_id", api.GetRunId)
 	r.POST("/api/trace/:txId", api.GetTrace)
 	r.POST("/api/tx", api.GetTx)
 	r.GET("/api/rpc", api.GetRpc)

@@ -1,4 +1,10 @@
-function renderSimulator() {
+async function renderSimulator() {
+    let remoteRunId = await getRemoteRunId()
+    let runId = getRunId()
+    if (!(remoteRunId === runId)) {
+        localStorage.clear()
+        localStorage.setItem("run_id", remoteRunId)
+    }
     let simulator = getCurrentSimulator()
     if (!simulator) {
         document.getElementById("current_simulator_status").innerText = "Simulator not started"
@@ -115,6 +121,17 @@ function sendTransaction() {
             }
         })
     })
+}
+
+async function getRemoteRunId() {
+    // Get /api/run_id
+    let resp = await fetch("/api/run_id")
+    let j = await resp.json()
+    return j.run_id
+}
+
+function getRunId() {
+    return localStorage.getItem("run_id")
 }
 
 function getCurrentSimulator() {

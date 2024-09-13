@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-var rpc = "http://localhost:8545"
+var rpc = "http://localhost:18545"
 
 func init() {
 	env, b := os.LookupEnv("NODE_RPC")
