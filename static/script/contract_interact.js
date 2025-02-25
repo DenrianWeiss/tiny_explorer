@@ -50,7 +50,6 @@ async function generateContractInterface(abi, contractAddress) {
                 form.appendChild(label);
                 form.appendChild(inputField);
             });
-            debugger;
 
             let buttonHtml = `<button class="mdui-btn mdui-btn-raised ${item.stateMutability === 'view' ? 'mdui-color-indigo-200': 'mdui-color-pink-200'}" onclick="window.f${itemId}()">${item.stateMutability === 'view' ? 'Read': 'Write'}</button>`
 
@@ -94,7 +93,6 @@ async function generateContractInterface(abi, contractAddress) {
                 }
 
                 if (item.stateMutability === 'view') {
-                    debugger;
                     try {
                         const result = await contract[item.name](...args);
                         alert(`Result: ${result}`);
@@ -102,7 +100,6 @@ async function generateContractInterface(abi, contractAddress) {
                         alert(`Error: ${error.message}`);
                     }
                 } else {
-                    debugger;
                     try {
                         const result = await contract[item.name](...args);
                         alert(`Transaction successful: ${result.hash}`);
