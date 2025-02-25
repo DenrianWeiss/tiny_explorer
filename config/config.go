@@ -26,3 +26,7 @@ func GetHttpRpc() string {
 	}
 	return rpcUrl
 }
+
+func GetEtherscanAPIKey() string {
+	return os.Getenv("ETHERSCAN_API_KEY")
+}

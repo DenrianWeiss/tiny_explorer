@@ -122,6 +122,31 @@ async function refreshTokenBalance() {
     });
 }
 
+async function renderInteractiveSeg(address) {
+    // Use Custom Abi
+    let responseDoc = ``
+    responseDoc += `<div class="mdui-textfield">
+    <label class="mdui-textfield-label">Custom ABI</label>
+    <textarea class="mdui-textfield-input" id="custom_abi"></textarea>
+</div>
+<button class="mdui-btn mdui-ripple" onclick="submitCustomAbi()">Update</button>
+<div class="mdui-container" id="contract_call">`
+    // Try to fetch the contract abi
+    let abi = await getABI(address);
+    if (!(abi === "")) {
+        responseDoc += await generateContractInterface(JSON.parse(abi), address);
+    }
+    responseDoc += `</div>`
+    return responseDoc
+}
+
+async function submitCustomAbi() {
+    let searchParams = new URLSearchParams(window.location.search);
+    let address = searchParams.get("address");
+    let abi = document.getElementById("custom_abi").value;
+    document.getElementById("contract_call").innerHTML = await generateContractInterface(JSON.parse(abi), address);
+}
+
 async function renderAccountPage() {
     await getRpc()
     let searchParams = new URLSearchParams(window.location.search);
@@ -139,6 +164,7 @@ async function renderAccountPage() {
         <div class="mdui-typo mdui-container">
             <code>${code}</code>
         </div>`
+    let interactiveSeg = !isContract ? "" : await renderInteractiveSeg(address) // todo
     let txCount = 0;
     if (!isContract) {
         txCount = await provider.getTransactionCount(address, "latest");
@@ -198,6 +224,7 @@ async function renderAccountPage() {
             </button>
         </div>-->
         ${codeSeg}
+        ${interactiveSeg}
 `;
     // Invoke RenderToken async
     await refreshTokenBalance()

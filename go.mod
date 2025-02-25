@@ -1,6 +1,6 @@
 module resolver_explorer
 
-go 1.19
+go 1.23
 
 require (
 	github.com/dgraph-io/badger/v3 v3.2103.5

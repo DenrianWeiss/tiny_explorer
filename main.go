@@ -28,6 +28,7 @@ func main() {
 	r.GET("/simulations/tx/:port/:txId", api.GetForkTrace)
 	r.GET("/simulations/tx.html", static.ForkTxHandler)
 	r.GET("/api/tokens/list", api.GetDisplayToken)
+	r.GET("/api/abi/:contract", api.GetAbi)
 	r.GET("/", static.IndexHandler)
 	r.GET("/block.html", static.BlockHandler)
 	r.GET("/tx.html", static.TxHandler)
