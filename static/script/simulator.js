@@ -9,6 +9,7 @@ async function renderSimulator() {
     if (!simulator) {
         document.getElementById("current_simulator_status").innerText = "Simulator not started"
         document.getElementById("stop").disabled = true
+        document.getElementById("extend").disabled = true
     } else {
         document.getElementById("current_simulator_status").innerText = "Simulator started at path " + simulator
         // Get Page Base URL
@@ -16,6 +17,7 @@ async function renderSimulator() {
         document.getElementById("current_simulator_rpc").innerText = base + "/simulations/rpc/" + simulator
         document.getElementById("start").disabled = true
         document.getElementById("stop").disabled = false
+        document.getElementById("extend").disabled = false
     }
 }
 
@@ -51,6 +53,7 @@ function startSimulator() {
                     document.getElementById("current_simulator_rpc").innerText = base + "/simulations/rpc/" + simulator
                     document.getElementById("start").disabled = true
                     document.getElementById("stop").disabled = false
+                    document.getElementById("extend").disabled = false
                 } else {
                     alert("Failed to start simulator, " + decoded.detail)
                 }
@@ -68,7 +71,34 @@ function stopSimulator() {
         return
     }
     // Post /simulations/stop
-    let reqUri = "/simulations/stop"
+    let reqUri = "/simulations/kill"
+    fetch(reqUri, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({port: port})
+    }).then((f) => {
+        f.json().then((decoded) => {
+            // Check status
+            if (decoded.status === "ok") {
+                setCurrentSimulator(null)
+                alert("Simulator stopped")
+            } else {
+                alert("Failed to stop simulator, " + decoded.detail)
+            }
+        })
+    })
+}
+
+function extendSimulator() {
+    let port = getCurrentSimulator()
+    if (!port) {
+        alert("Simulator not started")
+        return
+    }
+    // Post /simulations/stop
+    let reqUri = "/simulations/extend"
     fetch(reqUri, {
         method: "POST",
         headers: {

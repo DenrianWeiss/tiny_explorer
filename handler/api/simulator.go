@@ -16,7 +16,7 @@ type CreateSimulatorRequest struct {
 }
 
 type UpdateSimulatorRequest struct {
-	Port int `json:"port"`
+	Port string `json:"port"`
 }
 
 type SimulateRequest struct {
@@ -61,7 +61,8 @@ func ExtendSimulatorLifeCycle(c *gin.Context) {
 		return
 	}
 	// Extend the simulator life cycle.
-	err := anvil.ExtendNodeLifeCycle(r.Port)
+	port, _ := strconv.ParseInt(r.Port, 10, 64)
+	err := anvil.ExtendNodeLifeCycle(int(port))
 	if err != nil {
 		c.JSON(200, gin.H{
 			"status": "error",
@@ -84,7 +85,8 @@ func KillSimulator(c *gin.Context) {
 		return
 	}
 	// Extend the simulator life cycle.
-	anvil.KillNode(r.Port)
+	port, _ := strconv.ParseInt(r.Port, 10, 64)
+	anvil.KillNode(int(port))
 	c.JSON(200, gin.H{
 		"status": "ok",
 	})

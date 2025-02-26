@@ -5,8 +5,53 @@ import (
 	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
+	"resolver_explorer/config"
 	"strconv"
+	"strings"
 )
+
+func ForwardMainRpc(c *gin.Context) {
+	targetUrl := config.GetRpc()
+	if strings.HasPrefix(targetUrl, "ws") {
+		// Replace ws with http
+		targetUrl = "http" + targetUrl[2:]
+	}
+	reqBody, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": "error",
+			"detail": "read request body failed",
+		})
+		return
+	}
+	// Create a new reader from the request body
+	rFlow := bytes.NewReader(reqBody)
+	req, _ := http.NewRequest(c.Request.Method, targetUrl, rFlow)
+	// Clone the request headers
+	req.Header = c.Request.Header
+	// Send the request to the target URL
+	client := http.DefaultClient
+	resp, err := client.Do(req)
+	if err != nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"status": "error",
+			"detail": "rpc server is down",
+		})
+		return
+	}
+	// Read the response body
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": "error",
+			"detail": "read response body failed",
+		})
+		return
+	}
+	// Forward the response to the client
+	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), respBody)
+	c.Next()
+}
 
 func ForwardToRpc(c *gin.Context) {
 	// Forward to RPC.

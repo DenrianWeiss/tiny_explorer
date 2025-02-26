@@ -36,6 +36,7 @@ func main() {
 	r.GET("/search", handler.SearchHandler)
 	r.GET("/simulator.html", static.SimulatorHandler)
 	r.Any("/simulations/rpc/:path", anvil.ForwardToRpc)
+	r.Any("/rpc", anvil.ForwardMainRpc)
 	subDir, _ := fs.Sub(static.EmbedFs, "script")
 	r.StaticFS("/script", http.FS(subDir))
 	panic(r.Run("0.0.0.0:80"))

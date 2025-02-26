@@ -7,6 +7,8 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"io"
 	"net/http"
+	"os"
+	"path"
 	"resolver_explorer/config"
 	"resolver_explorer/service/db"
 )
@@ -36,6 +38,34 @@ type GetCodeResponse struct {
 		SwarmSource          string `json:"SwarmSource"`
 		SimilarMatch         string `json:"SimilarMatch"`
 	} `json:"result"`
+}
+
+func LoadFromFs(address string) string {
+	// Try Open '/abi/mapping.json';
+	// If not found, return empty string.
+	// If found, read the file and return the content.
+	mapping, err := os.Open("/abi/mapping.json")
+	if err != nil {
+		return ""
+	}
+	defer mapping.Close()
+	mappingContent, _ := io.ReadAll(mapping)
+	mappingJson := map[string]string{}
+	_ = json.Unmarshal(mappingContent, &mappingJson)
+	abi, ok := mappingJson[address]
+	if !ok {
+		return ""
+	}
+	// Open the mapping target file;
+	// Concrete abi to "/abi" directory.
+	concretePath := path.Join("/abi", abi)
+	abiFile, err := os.Open(concretePath)
+	if err != nil {
+		return ""
+	}
+	defer abiFile.Close()
+	abiContent, _ := io.ReadAll(abiFile)
+	return string(abiContent)
 }
 
 func LoadFromEtherScan(address string) string {
@@ -86,6 +116,10 @@ func LoadFromEtherScan(address string) string {
 }
 
 func LoadAbi(address string) string {
+	fsResult := LoadFromFs(address)
+	if fsResult != "" {
+		return fsResult
+	}
 	// First try to load from db
 	abi, err := GetAbi(address)
 	if err != nil || abi == "" {
