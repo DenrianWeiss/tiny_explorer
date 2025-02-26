@@ -133,7 +133,7 @@ async function renderInteractiveSeg(address) {
 <div class="mdui-container" id="contract_call">`
     // Try to fetch the contract abi
     let abi = await getABI(address);
-    if (!(abi === "")) {
+    if (!(abi === "") || !(abi === "Contract source code not verified")) {
         responseDoc += await generateContractInterface(JSON.parse(abi), address);
     }
     responseDoc += `</div>`

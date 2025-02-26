@@ -83,7 +83,7 @@ function renderTx(tx) {
     <li class="mdui-list-item mdui-ripple" onclick="window.location='tx.html?tx=${tx.hash}'">
       <i class="mdui-list-item-icon mdui-icon material-icons">swap_horiz</i>
       <div class="mdui-list-item-content">
-        <div class="mdui-list-item-title mdui-list-item-one-line">Tx ${tx.hash.slice(0, 32)}</div>
+        <div class="mdui-list-item-title mdui-list-item-one-line">Tx ${tx.hash}</div>
         <div class="mdui-list-item-text mdui-list-item-two-line">
           <span>Sender: ${tx.from}</span>
           <br/>
