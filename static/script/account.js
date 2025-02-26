@@ -134,7 +134,11 @@ async function renderInteractiveSeg(address) {
     // Try to fetch the contract abi
     let abi = await getABI(address);
     if (!(abi === "") || !(abi === "Contract source code not verified")) {
-        responseDoc += await generateContractInterface(JSON.parse(abi), address);
+        try {
+            responseDoc += await generateContractInterface(JSON.parse(abi), address);
+        } catch (e) {
+            console.error(e)
+        }
     }
     responseDoc += `</div>`
     return responseDoc
